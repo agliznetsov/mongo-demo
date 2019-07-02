@@ -11,18 +11,18 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 @EnableTransactionManagement
 public class MongoConfiguration {
-	@Bean
-	public ValidatingMongoEventListener validatingMongoEventListener() {
-		return new ValidatingMongoEventListener(validator());
-	}
+    @Bean
+    public ValidatingMongoEventListener validatingMongoEventListener() {
+        return new ValidatingMongoEventListener(validator());
+    }
 
-	@Bean
-	public LocalValidatorFactoryBean validator() {
-		return new LocalValidatorFactoryBean();
-	}
+    @Bean
+    public LocalValidatorFactoryBean validator() {
+        return new LocalValidatorFactoryBean();
+    }
 
-	@Bean
-	public MongoTransactionManager transactionManager(MongoDbFactory dbFactory) {
-		return new MongoTransactionManager(dbFactory);
-	}
+    @Bean
+    public MongoTransactionManager transactionManager(MongoDbFactory dbFactory) {
+        return new MongoTransactionManager(dbFactory);
+    }
 }

@@ -1,9 +1,9 @@
 package com.example.mongodemo.dao;
 
-import java.util.List;
-
 import com.example.mongodemo.model.User;
 
+import java.util.List;
+
 public interface UserRepositoryEx {
-	List<User> customFind();
+    List<User> customFind();
 }

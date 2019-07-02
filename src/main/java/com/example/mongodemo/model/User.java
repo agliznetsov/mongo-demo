@@ -1,30 +1,28 @@
 package com.example.mongodemo.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
+import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Data;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Document
 @Data
 public class User {
-	@Id
-	ObjectId id;
+    @Id
+    ObjectId id;
 
-	@NotBlank
-	@Size(min = 3)
-	@Indexed(unique = true)
-	String name;
+    @NotBlank
+    @Size(min = 3)
+    @Indexed(unique = true)
+    String name;
 
-	String email;
+    String email;
 
-	Set<ApplicationRole> roles = new HashSet<>();
+    Set<ApplicationRole> roles = new HashSet<>();
 }
