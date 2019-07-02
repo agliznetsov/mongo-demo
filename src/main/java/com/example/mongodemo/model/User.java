@@ -1,22 +1,23 @@
-package com.example.mongodemo;
+package com.example.mongodemo.model;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Document
 @Data
-@Builder
 public class User {
 	@Id
-	String id;
+	ObjectId id;
 
 	@NotBlank
 	@Size(min = 3)
@@ -24,4 +25,6 @@ public class User {
 	String name;
 
 	String email;
+
+	Set<ApplicationRole> roles = new HashSet<>();
 }
