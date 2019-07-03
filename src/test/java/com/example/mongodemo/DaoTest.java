@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
@@ -38,20 +39,7 @@ import com.example.mongodemo.model.UserProduction;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 @Import(MongoConfiguration.class)
-//@ContextConfiguration(initializers = {DaoTest.Initializer.class})
 public class DaoTest {
-
-//	private static final int MONGO_PORT = 27017;
-//
-//	static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-//		public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-//			TestPropertyValues.of("spring.data.mongodb.port=" + mongo.getMappedPort(MONGO_PORT))
-//					.applyTo(configurableApplicationContext.getEnvironment());
-//		}
-//	}
-//
-//	@ClassRule
-//	public static GenericContainer mongo = new GenericContainer("mongo:4.0.10").withExposedPorts(MONGO_PORT);
 
 	@Autowired
 	UserRepository userRepository;
@@ -115,6 +103,24 @@ public class DaoTest {
 			UserProduction up = userProductionRepository.findByProduction(production).get(0);
 			assertNull(up.getUser());
 		}
+	}
+
+	@Test
+	public void testProductionOptimisticLocking() {
+		Production p1 = saveProduction(randomString());
+		Production p2 = productionRepository.findById(p1.getId()).get();
+
+		p1.setName("newname");
+		productionRepository.save(p1);
+
+		p2.setName("othername");
+		try {
+			productionRepository.save(p2);
+		} catch (OptimisticLockingFailureException e) {
+			//should fail
+		}
+
+		assertEquals("newname", productionRepository.findById(p1.getId()).get().getName());
 	}
 
 	private void saveUserProduction(User user, Production production) {

@@ -4,6 +4,7 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,11 @@ public class Production {
     @Id
     ObjectId id;
 
+	@NotBlank
+	String name;
+
+	@Version
+	Long version;
     @NotBlank
     String name;
 }
