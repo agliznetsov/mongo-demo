@@ -21,6 +21,4 @@ public class Production {
 
 	@Version
 	Long version;
-    @NotBlank
-    String name;
 }

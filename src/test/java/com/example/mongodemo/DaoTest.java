@@ -83,6 +83,8 @@ public class DaoTest {
 
 	@Test
 	public void userProduction() {
+		userProductionRepository.deleteAll();
+
 		User user = saveUser(randomString());
 		Production production = saveProduction(randomString());
 		saveUserProduction(user, production);
